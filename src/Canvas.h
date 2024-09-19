@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-struct Color;
+class Color;
 
 class Canvas
 {

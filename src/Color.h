@@ -1,12 +1,13 @@
 #pragma once
 
 #include <cmath>
-#include <cfloat>
 #include <algorithm>
+#include <iostream>
 
+#include "Utilities/Constants.h"
 #include "Utilities/Utilities.h"
 
-struct Color
+class Color
 {
 public:
     float r;
@@ -21,9 +22,9 @@ public:
 
     bool operator==(const Color& other) const
     {
-        return std::fabsf(r - other.r) < FLT_EPSILON &&
-            std::fabsf(g - other.g) < FLT_EPSILON &&
-            std::fabsf(b - other.b) < FLT_EPSILON;
+        return std::fabsf(r - other.r) < EPSILON &&
+            std::fabsf(g - other.g) < EPSILON &&
+            std::fabsf(b - other.b) < EPSILON;
     }
 
     bool operator!=(const Color& other) const
@@ -108,6 +109,10 @@ public:
     }
 
 #pragma endregion
+
+    friend std::ostream& operator<<(std::ostream& os, const Color& color) {
+        return os << "Color(" << color.r << ", " << color.g << ", " << color.b << ")";
+    }
 
     std::string ToString() const
     {

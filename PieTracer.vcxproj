@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Canvas.cpp" />
+    <ClCompile Include="src\Matrix.h" />
     <ClCompile Include="src\PieTracer.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -232,6 +233,7 @@
     <ClCompile Include="Tests\CanvasTests.cpp" />
     <ClCompile Include="Tests\catch_amalgamated.cpp" />
     <ClCompile Include="Tests\ColorTests.cpp" />
+    <ClCompile Include="Tests\MatrixTests.cpp" />
     <ClCompile Include="Tests\Tests.cpp" />
     <ClCompile Include="Tests\TupleTests.cpp" />
   </ItemGroup>
@@ -239,6 +241,7 @@
     <ClInclude Include="src\Canvas.h" />
     <ClInclude Include="src\Color.h" />
     <ClInclude Include="src\Tuple.h" />
+    <ClInclude Include="src\Utilities\Constants.h" />
     <ClInclude Include="src\Utilities\Utilities.h" />
     <ClInclude Include="Tests\catch_amalgamated.hpp" />
   </ItemGroup>

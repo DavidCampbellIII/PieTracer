@@ -1,7 +1,8 @@
 #pragma once
 
 #include <cmath>
-#include <cfloat>
+
+#include "Utilities/Constants.h"
 
 struct Tuple
 {
@@ -39,10 +40,10 @@ public:
 
     bool operator==(const Tuple& other) const
     {
-        return std::fabsf(x - other.x) < FLT_EPSILON &&
-                std::fabsf(y - other.y) < FLT_EPSILON &&
-                std::fabsf(z - other.z) < FLT_EPSILON &&
-                std::fabsf(w - other.w) < FLT_EPSILON;
+        return std::fabsf(x - other.x) < EPSILON &&
+                std::fabsf(y - other.y) < EPSILON &&
+                std::fabsf(z - other.z) < EPSILON &&
+                std::fabsf(w - other.w) < EPSILON;
     }
 
     bool operator!=(const Tuple& other) const
