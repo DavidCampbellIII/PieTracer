@@ -1,5 +1,6 @@
 #include "catch_amalgamated.hpp"
 #include "../src/Matrix.h"
+#include "../src/Tuple.h"
 
 using namespace Catch::Matchers;
 
@@ -87,11 +88,29 @@ TEST_CASE("Matrix Multiplication", "[matrix]")
         {4, 3, 6, 5}, 
         {1, 2, 7, 8}
     };
-    const Matrix<4, 4> result = {
-        {20, 22, 50, 48},
-        {44, 54, 114, 108},
-        {40, 58, 110, 102},
-        {16, 26, 46, 42}
-    };
-    REQUIRE(a * b == result);
+    
+
+    SECTION("Matrix * Matrix")
+    {
+        const Matrix<4, 4> result = {
+            {20, 22, 50, 48},
+            {44, 54, 114, 108},
+            {40, 58, 110, 102},
+            {16, 26, 46, 42}
+        };
+        REQUIRE(a * b == result);
+    }
+
+    SECTION("Matrix * Tuple")
+    {
+        const Matrix<4, 4> a = {
+            {1, 2, 3, 4},
+            {2, 4, 4, 2},
+            {8, 6, 4, 1},
+            {0, 0, 0, 1}
+        };
+        const Tuple t = Tuple(1, 2, 3, 1);
+        const Tuple result = Tuple(18, 24, 33, 1);
+        REQUIRE(a * t == result);
+    }
 }
