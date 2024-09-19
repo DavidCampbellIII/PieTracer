@@ -91,6 +91,12 @@ TEST_CASE("Multiplication", "[tuple]")
         const Tuple b = a * 0.5f;
         REQUIRE(b == Tuple(0.5, -1, 1.5, -2));
     }
+
+    SECTION("Tuple by tuple (component-wise)")
+    {
+        const Tuple b = a * Tuple(1, -2, 3, -4);
+        REQUIRE(b == Tuple(1, 4, 9, 16));
+    }
 }
 
 TEST_CASE("Division", "[tuple]")

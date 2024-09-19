@@ -35,6 +35,23 @@ public:
         return Tuple(_x, _y, _z, 0.f);
     }
 
+#pragma region Equality
+
+    bool operator==(const Tuple& other) const
+    {
+        return std::fabsf(x - other.x) < FLT_EPSILON &&
+                std::fabsf(y - other.y) < FLT_EPSILON &&
+                std::fabsf(z - other.z) < FLT_EPSILON &&
+                std::fabsf(w - other.w) < FLT_EPSILON;
+    }
+
+    bool operator!=(const Tuple& other) const
+    {
+        return !(*this == other);
+    }
+
+#pragma endregion
+
 #pragma region Addition
 
     Tuple operator+(const Tuple& other) const
@@ -99,6 +116,24 @@ public:
         return *this;
     }
 
+    Tuple operator*(const Tuple& other) const
+    {
+        return Tuple(
+            x * other.x,
+            y * other.y,
+            z * other.z,
+            w * other.w);
+    }
+
+    Tuple& operator*=(const Tuple& other)
+    {
+        x *= other.x;
+        y *= other.y;
+        z *= other.z;
+        w *= other.w;
+        return *this;
+    }
+
 #pragma endregion
 
 #pragma region Division
@@ -126,19 +161,6 @@ public:
     Tuple operator-() const
     {
         return Tuple(-x, -y, -z, -w);
-    }
-
-    bool operator==(const Tuple& other) const
-    {
-        return std::fabsf(x - other.x) < FLT_EPSILON &&
-                std::fabsf(y - other.y) < FLT_EPSILON &&
-                std::fabsf(z - other.z) < FLT_EPSILON &&
-                std::fabsf(w - other.w) < FLT_EPSILON;
-    }
-
-    bool operator!=(const Tuple& other) const
-    {
-        return !(*this == other);
     }
 
     float Magnitude() const
