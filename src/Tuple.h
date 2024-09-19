@@ -15,12 +15,22 @@ public:
     Tuple(const float _x, const float _y, const float _z, const float _w) :
         x(_x), y(_y), z(_z), w(_w) {}
 
-    Tuple Point(const float _x, const float _y, const float _z)
+    static Tuple PointZero()
+    {
+        return Tuple(0, 0, 0, 1);
+    }
+
+    static Tuple VectorZero()
+    {
+        return Tuple(0, 0, 0, 0);
+    }
+
+    static Tuple Point(const float _x, const float _y, const float _z)
     {
         return Tuple(_x, _y, _z, 1.f);
     }
 
-    Tuple Vector(const float _x, const float _y, const float _z)
+    static Tuple Vector(const float _x, const float _y, const float _z)
     {
         return Tuple(_x, _y, _z, 0.f);
     }
@@ -113,13 +123,9 @@ public:
 
 #pragma endregion
 
-    Tuple& operator-()
+    Tuple operator-() const
     {
-        x = -x;
-        y = -y;
-        z = -z;
-        w = -w;
-        return *this;
+        return Tuple(-x, -y, -z, -w);
     }
 
     bool operator==(const Tuple& other) const
