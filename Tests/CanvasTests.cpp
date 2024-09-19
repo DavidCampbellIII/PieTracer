@@ -41,3 +41,16 @@ TEST_CASE("To PPM string", "[canvas]")
     expected +=            "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255\n\n";
     REQUIRE(ppm == expected);
 }
+
+TEST_CASE("Splitting long PPM lines", "[canvas]")
+{
+    Canvas c = Canvas(11, 1);
+    const Color color = Color(1.f, 0.8f, 0.6f);
+    c.Clear(color);
+
+    const std::string ppm = c.ToPPM();
+    std::string expected = "P3\n11 1\n255\n";
+    expected +=            "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n";
+    expected +=            "153 255 204 153 255 204 153 255 204 153 255 204 153\n\n";
+    REQUIRE(ppm == expected);
+}

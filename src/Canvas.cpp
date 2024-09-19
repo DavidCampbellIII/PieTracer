@@ -13,6 +13,10 @@ Color Canvas::PixelAt(const int x, const int y) const
 
 void Canvas::WritePixel(const int x, const int y, const Color& color)
 {
+    if(x < 0 || x >= width || y < 0 || y >= height)
+    {
+        return;
+    }
     pixels[y][x] = color;
 }
 
@@ -37,8 +41,8 @@ std::string Canvas::ToPPM() const
         for(const Color& color : row)
         {
             const std::string colorString = color.ToString();
-            //add 1 to account for the space
-            if(lineLength + colorString.length() + 1 >= 70)
+            //add 1 to account for the space and 2 for the newline for total of 3
+            if(lineLength + colorString.length() + 3 >= 70)
             {
                 ppm += "\n";
                 lineLength = 0;

@@ -4,6 +4,8 @@
 #include <cfloat>
 #include <algorithm>
 
+#include "Utilities/Utilities.h"
+
 struct Color
 {
 public:
@@ -109,9 +111,9 @@ public:
 
     std::string ToString() const
     {
-        const int rInt = static_cast<int>(std::round(std::clamp(r, 0.f, 1.f) * 255));
-        const int gInt = static_cast<int>(std::round(std::clamp(g, 0.f, 1.f) * 255));
-        const int bInt = static_cast<int>(std::round(std::clamp(b, 0.f, 1.f) * 255));
+        const int rInt = static_cast<int>(std::round(Utilities::Clamp01(r) * 255));
+        const int gInt = static_cast<int>(std::round(Utilities::Clamp01(g) * 255));
+        const int bInt = static_cast<int>(std::round(Utilities::Clamp01(b) * 255));
         return std::to_string(rInt) + " " + std::to_string(gInt) + " " + std::to_string(bInt);
     }
 };
