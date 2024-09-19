@@ -114,3 +114,22 @@ TEST_CASE("Matrix Multiplication", "[matrix]")
         REQUIRE(a * t == result);
     }
 }
+
+TEST_CASE("Matrix Identity", "[matrix]")
+{
+    const Matrix<4, 4> a = {
+        {0, 1, 2, 4},
+        {1, 2, 4, 8},
+        {2, 4, 8, 16},
+        {4, 8, 16, 32}
+    };
+    REQUIRE(a * Matrix<4, 4>::IDENTITY == a);
+
+    const Matrix<4, 4> identity = {
+        {1, 0, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 1, 0},
+        {0, 0, 0, 1}
+    };
+    REQUIRE(identity == Matrix<4, 4>::IDENTITY);
+}

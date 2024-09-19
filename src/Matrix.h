@@ -10,6 +10,8 @@ template<size_t Rows, size_t Cols>
 class Matrix
 {
 public:
+    static const Matrix<4, 4> IDENTITY;
+    
     Matrix() = default;
     Matrix(const std::initializer_list<std::initializer_list<float>> init) {
         size_t row = 0;
@@ -112,4 +114,11 @@ public:
 
 private:
     std::array<float, Rows * Cols> data;
+};
+
+const Matrix<4, 4> Matrix<4, 4>::IDENTITY = {
+    {1, 0, 0, 0},
+    {0, 1, 0, 0},
+    {0, 0, 1, 0},
+    {0, 0, 0, 1}
 };
