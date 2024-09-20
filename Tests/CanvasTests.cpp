@@ -1,6 +1,6 @@
-#include "catch_amalgamated.hpp"
-#include "../src/Canvas.h"
-#include "../src/Color.h"
+#include <catch2/catch_test_macros.hpp>
+#include "../src/Shared/Canvas.h"
+#include "../src/Shared/Color.h"
 
 TEST_CASE("Canvas initialization", "[canvas]")
 {

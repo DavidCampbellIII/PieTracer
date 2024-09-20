@@ -1,6 +1,6 @@
-#include "catch_amalgamated.hpp"
-#include "../src/Matrix.h"
-#include "../src/Tuple.h"
+#include <catch2/catch_all.hpp>
+#include "../src/Shared/Matrix.h"
+#include "../src/Shared/Tuple.h"
 
 using namespace Catch::Matchers;
 

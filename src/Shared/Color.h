@@ -3,6 +3,7 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+#include <string>
 
 #include "Utilities/Constants.h"
 #include "Utilities/Utilities.h"

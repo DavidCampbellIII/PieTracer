@@ -1,5 +1,5 @@
-#include "Canvas.h"
 #include "Color.h"
+#include "Canvas.h"
 
 Canvas::Canvas(const int _width, const int _height) :
     width(_width), height(_height),
@@ -37,7 +37,7 @@ std::string Canvas::ToPPM() const
     std::string ppm = header;
     for(const std::vector<Color>& row : pixels)
     {
-        int lineLength = 0;
+        size_t lineLength = 0;
         for(const Color& color : row)
         {
             const std::string colorString = color.ToString();

@@ -12,8 +12,8 @@ class Matrix
 public:
     static const Matrix<4, 4> IDENTITY;
     
-    Matrix() = default;
-    Matrix(const std::initializer_list<std::initializer_list<float>> init) {
+    Matrix() : data{} {};
+    Matrix(const std::initializer_list<std::initializer_list<float>> init) : data{} {
         size_t row = 0;
         for (const auto& row_list : init) {
             size_t col = 0;
