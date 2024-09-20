@@ -31,9 +31,8 @@
 *.out
 *.app
 
-/PieTracer/x64/
-/PieTracer/Debug/
 /x64/Debug/
 /Debug/
 /.vs/
 /out/
+/renders/

@@ -1,10 +1,13 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <filesystem>
 
 #include "Shared/Canvas.h"
 #include "Shared/Color.h"
 #include "Shared/Tuple.h"
+
+namespace fs = std::filesystem;
 
 struct Projectile
 {
@@ -39,8 +42,18 @@ struct Projectile
      }
      
      const std::string ppm = canvas.ToPPM();
+
+	 const fs::path exeDir = fs::current_path();
+	 //file is running in out/build/Debug or out/build/Release, so we need to go up 3 directories to get to the project root
+	 const fs::path outDir = exeDir.parent_path().parent_path().parent_path() / "renders";
+     if (!fs::exists(outDir))
+     {
+         fs::create_directory(outDir);
+		 std::cout << "Created directory: " << outDir << std::endl;
+     }
      
-     std::ofstream file("out/projectile.ppm", std::ios::out | std::ios::trunc);
+	 const fs::path filePath = outDir / "projectile.ppm";
+     std::ofstream file(filePath, std::ios::out | std::ios::trunc);
      if(!file)
      {
          std::cerr << "Error creating file" << std::endl;
