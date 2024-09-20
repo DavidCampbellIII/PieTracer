@@ -112,6 +112,72 @@ public:
 
 #pragma endregion 
 
+	Matrix<Rows, Cols> Transpose() const
+	{
+		Matrix<Rows, Cols> result;
+		for (int row = 0; row < Rows; row++)
+		{
+			for (int col = 0; col < Cols; col++)
+			{
+				result.Set(col, row, Get(row, col));
+			}
+		}
+		return result;
+	}
+
+	float Determinant() const
+	{
+		if (Rows == 2 && Cols == 2)
+		{
+			return Get(0, 0) * Get(1, 1) - Get(0, 1) * Get(1, 0);
+		}
+
+        float det = 0;
+        for (int col = 0; col < Cols; col++)
+        {
+            det += Get(0, col) * Cofactor(0, col);
+        }
+        return det;
+	}
+
+	Matrix<Rows - 1, Cols - 1> Submatrix(const int row, const int col) const
+	{
+		Matrix<Rows - 1, Cols - 1> result;
+		int resultRow = 0;
+		for (int i = 0; i < Rows; i++)
+		{
+			if (i == row)
+			{
+				continue;
+			}
+
+			int resultCol = 0;
+			for (int j = 0; j < Cols; j++)
+			{
+				if (j == col)
+				{
+					continue;
+				}
+
+				result.Set(resultRow, resultCol, Get(i, j));
+				++resultCol;
+			}
+			++resultRow;
+		}
+		return result;
+	}
+
+	float Minor(const int row, const int col) const
+	{
+		return Submatrix(row, col).Determinant();
+	}
+
+	float Cofactor(const int row, const int col) const
+	{
+		const float minor = Minor(row, col);
+		return (row + col) % 2 == 0 ? minor : -minor;
+	}
+
 private:
     std::array<float, Rows * Cols> data;
 };

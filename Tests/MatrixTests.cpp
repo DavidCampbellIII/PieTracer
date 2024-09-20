@@ -133,3 +133,113 @@ TEST_CASE("Matrix Identity", "[matrix]")
     };
     REQUIRE(identity == Matrix<4, 4>::IDENTITY);
 }
+
+TEST_CASE("Matrix Transpose", "[matrix]")
+{
+	const Matrix<4, 4> a = {
+		{0, 9, 3, 0},
+		{9, 8, 0, 8},
+		{1, 8, 5, 3},
+		{0, 0, 5, 8}
+	};
+	const Matrix<4, 4> result = {
+		{0, 9, 1, 0},
+		{9, 8, 8, 0},
+		{3, 0, 5, 5},
+		{0, 8, 3, 8}
+	};
+	REQUIRE(a.Transpose() == result);
+	REQUIRE(Matrix<4, 4>::IDENTITY.Transpose() == Matrix<4, 4>::IDENTITY);
+}
+
+TEST_CASE("Matrix Determinant", "[matrix]")
+{
+	SECTION("2x2")
+	{
+		const Matrix<2, 2> a = {
+			{1, 5},
+			{-3, 2}
+		};
+		REQUIRE_THAT(a.Determinant(), WithinRel(17.f));
+	}
+	
+	SECTION("3x3")
+	{
+		const Matrix<3, 3> a = {
+			{1, 2, 6},
+			{-5, 8, -4},
+			{2, 6, 4}
+		};
+		REQUIRE_THAT(a.Cofactor(0, 0), WithinRel(56.f));
+		REQUIRE_THAT(a.Cofactor(0, 1), WithinRel(12.f));
+		REQUIRE_THAT(a.Cofactor(0, 2), WithinRel(-46.f));
+		REQUIRE_THAT(a.Determinant(), WithinRel(-196.f));
+	}
+
+	SECTION("4x4")
+	{
+		const Matrix<4, 4> a = {
+			{-2, -8, 3, 5},
+			{-3, 1, 7, 3},
+			{1, 2, -9, 6},
+			{-6, 7, 7, -9}
+		};
+		REQUIRE_THAT(a.Cofactor(0, 0), WithinRel(690.f));
+		REQUIRE_THAT(a.Cofactor(0, 1), WithinRel(447.f));
+		REQUIRE_THAT(a.Cofactor(0, 2), WithinRel(210.f));
+		REQUIRE_THAT(a.Cofactor(0, 3), WithinRel(51.f));
+		REQUIRE_THAT(a.Determinant(), WithinRel(-4071.f));
+	}
+}
+
+TEST_CASE("Matrix Submatrix", "[matrix]")
+{
+	const Matrix<3, 3> a = {
+		{1, 5, 0},
+		{-3, 2, 7},
+		{0, 6, -3}
+	};
+	const Matrix<2, 2> result = {
+		{-3, 2},
+		{0, 6}
+	};
+	REQUIRE(a.Submatrix(0, 2) == result);
+
+	const Matrix<4, 4> b = {
+		{-6, 1, 1, 6},
+		{-8, 5, 8, 6},
+		{-1, 0, 8, 2},
+		{-7, 1, -1, 1}
+	};
+	const Matrix<3, 3> result2 = {
+		{-6, 1, 6},
+		{-8, 8, 6},
+		{-7, -1, 1}
+	};
+	REQUIRE(b.Submatrix(2, 1) == result2);
+}
+
+TEST_CASE("Matrix Minor", "[matrix]")
+{
+	const Matrix<3, 3> a = {
+		{3, 5, 0},
+		{2, -1, -7},
+		{6, -1, 5}
+	};
+	const Matrix<2, 2> b = a.Submatrix(1, 0);
+	REQUIRE_THAT(b.Determinant(), WithinRel(25.f));
+	REQUIRE(a.Minor(1, 0) == 25.f);
+}
+
+TEST_CASE("Matrix Cofactor", "[matrix]")
+{
+	const Matrix<3, 3> a = {
+		{3, 5, 0},
+		{2, -1, -7},
+		{6, -1, 5}
+	};
+	REQUIRE(a.Minor(0, 0) == -12.f);
+	REQUIRE(a.Cofactor(0, 0) == -12.f);
+	REQUIRE(a.Minor(1, 0) == 25.f);
+	REQUIRE(a.Cofactor(1, 0) == -25.f);
+}
