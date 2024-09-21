@@ -13,6 +13,7 @@ public:
     float w;
 
     Tuple() : x(0), y(0), z(0), w(0) {}
+	Tuple(const Tuple& other) : Tuple(other.x, other.y, other.z, other.w) {}
     Tuple(const float _x, const float _y, const float _z, const float _w) :
         x(_x), y(_y), z(_z), w(_w) {}
 
@@ -24,16 +25,6 @@ public:
     static Tuple VectorZero()
     {
         return Tuple(0, 0, 0, 0);
-    }
-
-    static Tuple Point(const float _x, const float _y, const float _z)
-    {
-        return Tuple(_x, _y, _z, 1.f);
-    }
-
-    static Tuple Vector(const float _x, const float _y, const float _z)
-    {
-        return Tuple(_x, _y, _z, 0.f);
     }
 
 #pragma region Equality
@@ -162,36 +153,5 @@ public:
     Tuple operator-() const
     {
         return Tuple(-x, -y, -z, -w);
-    }
-
-    float Magnitude() const
-    {
-        return std::sqrt(
-            x * x +
-            y * y +
-            z * z);
-    }
-
-    Tuple Normalize() const
-    {
-        const float magnitude = Magnitude();
-        return Tuple(x / magnitude, y / magnitude, z / magnitude, w);
-    }
-
-    float Dot(const Tuple& other) const
-    {
-        return  x * other.x +
-                y * other.y +
-                z * other.z +
-                w * other.w;
-    }
-
-    Tuple Cross(const Tuple& other) const
-    {
-        return Tuple(
-            y * other.z - z * other.y,
-            z * other.x - x * other.z,
-            x * other.y - y * other.x,
-            0.f);
     }
 };
