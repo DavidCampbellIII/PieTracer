@@ -11,6 +11,10 @@ class Matrix
 {
 public:
     static const Matrix<4, 4> IDENTITY;
+	[[nodiscard]] static Matrix<4, 4> Identity()
+	{
+		return IDENTITY;
+	}
     
     Matrix() : data{} {};
     Matrix(const std::initializer_list<std::initializer_list<float>> init) : data{} {
@@ -111,6 +115,85 @@ public:
     }
 
 #pragma endregion 
+
+#pragma region Transformations
+
+	[[nodiscard]] static Matrix<4, 4> Translation(const Tuple& translation)
+	{
+		return Translation(translation.x, translation.y, translation.z);
+	}
+
+	[[nodiscard]] static Matrix<4, 4> Translation(const float x, const float y, const float z)
+	{
+		Matrix<4, 4> result = IDENTITY;
+		result.Set(0, 3, x);
+		result.Set(1, 3, y);
+		result.Set(2, 3, z);
+		return result;
+	}
+
+	[[nodiscard]] static Matrix<4, 4> Scaling(const Tuple& scaling)
+	{
+		return Scaling(scaling.x, scaling.y, scaling.z);
+	}
+
+	[[nodiscard]] static Matrix<4, 4> Scaling(const float scale)
+	{
+		return Scaling(scale, scale, scale);
+	}
+
+	[[nodiscard]] static Matrix<4, 4> Scaling(const float x, const float y, const float z)
+	{
+		Matrix<4, 4> result = IDENTITY;
+		result.Set(0, 0, x);
+		result.Set(1, 1, y);
+		result.Set(2, 2, z);
+		return result;
+	}
+
+	[[nodiscard]] static Matrix<4, 4> RotationX(const float radians)
+	{
+		Matrix<4, 4> result = IDENTITY;
+		result.Set(1, 1, std::cosf(radians));
+		result.Set(1, 2, -std::sinf(radians));
+		result.Set(2, 1, std::sinf(radians));
+		result.Set(2, 2, std::cosf(radians));
+		return result;
+	}
+
+	[[nodiscard]] static Matrix<4, 4> RotationY(const float radians)
+	{
+		Matrix<4, 4> result = IDENTITY;
+		result.Set(0, 0, std::cosf(radians));
+		result.Set(0, 2, std::sinf(radians));
+		result.Set(2, 0, -std::sinf(radians));
+		result.Set(2, 2, std::cosf(radians));
+		return result;
+	}
+
+	[[nodiscard]] static Matrix<4, 4> RotationZ(const float radians)
+	{
+		Matrix<4, 4> result = IDENTITY;
+		result.Set(0, 0, std::cosf(radians));
+		result.Set(0, 1, -std::sinf(radians));
+		result.Set(1, 0, std::sinf(radians));
+		result.Set(1, 1, std::cosf(radians));
+		return result;
+	}
+
+	[[nodiscard]] static Matrix<4, 4> Shearing(const float xy, const float xz, const float yx, const float yz, const float zx, const float zy)
+	{
+		Matrix<4, 4> result = IDENTITY;
+		result.Set(0, 1, xy);
+		result.Set(0, 2, xz);
+		result.Set(1, 0, yx);
+		result.Set(1, 2, yz);
+		result.Set(2, 0, zx);
+		result.Set(2, 1, zy);
+		return result;
+	}
+
+#pragma endregion
 
 	[[nodiscard]] Matrix<Rows, Cols> Transpose() const
 	{

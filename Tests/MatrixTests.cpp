@@ -346,5 +346,4 @@ TEST_CASE("Matrix Inverse", "[matrix]")
 		const Matrix<4, 4> c = a * b;
 		REQUIRE(c * b.Inverse() == a);
 	}
-	
 }
