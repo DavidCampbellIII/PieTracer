@@ -27,7 +27,7 @@ public:
         }
     }
 
-    float Get(const size_t row, const size_t col) const
+    [[nodiscard]] float Get(const size_t row, const size_t col) const
     {
         return data[row * Cols + col];
     }
@@ -112,7 +112,7 @@ public:
 
 #pragma endregion 
 
-	Matrix<Rows, Cols> Transpose() const
+	[[nodiscard]] Matrix<Rows, Cols> Transpose() const
 	{
 		Matrix<Rows, Cols> result;
 		for (size_t row = 0; row < Rows; row++)
@@ -125,9 +125,9 @@ public:
 		return result;
 	}
 
-	float Determinant() const
+	[[nodiscard]] float Determinant() const
 	{
-		if (Rows == 2 && Cols == 2)
+		if constexpr (Rows == 2 && Cols == 2)
 		{
 			return Get(0, 0) * Get(1, 1) - Get(0, 1) * Get(1, 0);
 		}
@@ -140,7 +140,7 @@ public:
         return det;
 	}
 
-	auto Submatrix(const size_t row, const size_t col) const
+	[[nodiscard]] auto Submatrix(const size_t row, const size_t col) const
 	{
 		if constexpr (Rows >= 2 && Cols >= 2)
 		{
@@ -175,15 +175,41 @@ public:
 		}
 	}
 
-	float Minor(const size_t row, const size_t col) const
+	[[nodiscard]] float Minor(const size_t row, const size_t col) const
 	{
 		return Submatrix(row, col).Determinant();
 	}
 
-	float Cofactor(const size_t row, const size_t col) const
+	[[nodiscard]] float Cofactor(const size_t row, const size_t col) const
 	{
 		const float minor = Minor(row, col);
 		return (row + col) % 2 == 0 ? minor : -minor;
+	}
+
+	[[nodiscard]] Matrix<Rows, Cols> Inverse() const
+	{
+		Matrix<Rows, Cols> result;
+		const float det = Determinant();
+		if (det == 0.f)
+		{
+			throw std::runtime_error("Matrix is not invertible");
+		}
+
+		for (size_t row = 0; row < Rows; row++)
+		{
+			for (size_t col = 0; col < Cols; col++)
+			{
+				const float c = Cofactor(row, col);
+				result.Set(col, row, c / det);
+			}
+		}
+
+		return result;
+    }
+
+	[[nodiscard]] bool IsInvertible() const
+	{
+		return Determinant() != 0.f;
 	}
 
 private:
