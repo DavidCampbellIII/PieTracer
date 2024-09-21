@@ -228,7 +228,7 @@ TEST_CASE("Matrix Minor", "[matrix]")
 	};
 	const Matrix<2, 2> b = a.Submatrix(1, 0);
 	REQUIRE_THAT(b.Determinant(), WithinRel(25.f));
-	REQUIRE(a.Minor(1, 0) == 25.f);
+	REQUIRE_THAT(a.Minor(1, 0), WithinRel(25.f));
 }
 
 TEST_CASE("Matrix Cofactor", "[matrix]")
@@ -238,8 +238,8 @@ TEST_CASE("Matrix Cofactor", "[matrix]")
 		{2, -1, -7},
 		{6, -1, 5}
 	};
-	REQUIRE(a.Minor(0, 0) == -12.f);
-	REQUIRE(a.Cofactor(0, 0) == -12.f);
-	REQUIRE(a.Minor(1, 0) == 25.f);
-	REQUIRE(a.Cofactor(1, 0) == -25.f);
+	REQUIRE_THAT(a.Minor(0, 0), WithinRel(-12.f));
+	REQUIRE_THAT(a.Cofactor(0, 0), WithinRel(-12.f));
+	REQUIRE_THAT(a.Minor(1, 0), WithinRel(25.f));
+	REQUIRE_THAT(a.Cofactor(1, 0), WithinRel(-25.f));
 }

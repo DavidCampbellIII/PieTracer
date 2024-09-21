@@ -27,12 +27,12 @@ public:
         }
     }
 
-    float Get(const int row, const int col) const
+    float Get(const size_t row, const size_t col) const
     {
         return data[row * Cols + col];
     }
 
-    void Set(const int row, const int col, const float value)
+    void Set(const size_t row, const size_t col, const float value)
     {
         data[row * Cols + col] = value;
     }
@@ -115,9 +115,9 @@ public:
 	Matrix<Rows, Cols> Transpose() const
 	{
 		Matrix<Rows, Cols> result;
-		for (int row = 0; row < Rows; row++)
+		for (size_t row = 0; row < Rows; row++)
 		{
-			for (int col = 0; col < Cols; col++)
+			for (size_t col = 0; col < Cols; col++)
 			{
 				result.Set(col, row, Get(row, col));
 			}
@@ -133,46 +133,54 @@ public:
 		}
 
         float det = 0;
-        for (int col = 0; col < Cols; col++)
+        for (size_t col = 0; col < Cols; col++)
         {
             det += Get(0, col) * Cofactor(0, col);
         }
         return det;
 	}
 
-	Matrix<Rows - 1, Cols - 1> Submatrix(const int row, const int col) const
+	auto Submatrix(const size_t row, const size_t col) const
 	{
-		Matrix<Rows - 1, Cols - 1> result;
-		int resultRow = 0;
-		for (int i = 0; i < Rows; i++)
+		if constexpr (Rows >= 2 && Cols >= 2)
 		{
-			if (i == row)
-			{
-				continue;
-			}
+			Matrix<Rows - 1, Cols - 1> result;
+		    int resultRow = 0;
+		    for (size_t i = 0; i < Rows; i++)
+		    {
+			    if (i == row)
+			    {
+				    continue;
+			    }
 
-			int resultCol = 0;
-			for (int j = 0; j < Cols; j++)
-			{
-				if (j == col)
-				{
-					continue;
-				}
+			    int resultCol = 0;
+			    for (size_t j = 0; j < Cols; j++)
+			    {
+				    if (j == col)
+				    {
+					    continue;
+				    }
 
-				result.Set(resultRow, resultCol, Get(i, j));
-				++resultCol;
-			}
-			++resultRow;
+				    result.Set(resultRow, resultCol, Get(i, j));
+				    ++resultCol;
+			    }
+			    ++resultRow;
+		    }
+		    return result;
 		}
-		return result;
+		//literally needs the "else" statement to compile correctly, can't just "return *this" on its own for some reason
+        else
+        {
+			return *this;
+		}
 	}
 
-	float Minor(const int row, const int col) const
+	float Minor(const size_t row, const size_t col) const
 	{
 		return Submatrix(row, col).Determinant();
 	}
 
-	float Cofactor(const int row, const int col) const
+	float Cofactor(const size_t row, const size_t col) const
 	{
 		const float minor = Minor(row, col);
 		return (row + col) % 2 == 0 ? minor : -minor;

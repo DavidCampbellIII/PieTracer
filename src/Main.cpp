@@ -3,6 +3,7 @@
 #include <iostream>
 #include <filesystem>
 
+#include "Matrix.h"
 #include "Shared/Canvas.h"
 #include "Shared/Color.h"
 #include "Shared/Tuple.h"
