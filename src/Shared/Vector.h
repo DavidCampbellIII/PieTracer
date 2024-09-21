@@ -7,6 +7,11 @@ struct Vector : public Tuple
 	Vector(const float x, const float y, const float z) : Tuple(x, y, z, 0.f) {}
 	Vector(const Tuple& tuple) : Tuple(tuple.x, tuple.y, tuple.z, 0.f) {}
 
+	static Vector Zero()
+	{
+		return Vector(0, 0, 0);
+	}
+
 	float Magnitude() const
     {
         return std::sqrt(

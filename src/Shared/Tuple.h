@@ -17,15 +17,10 @@ public:
     Tuple(const float _x, const float _y, const float _z, const float _w) :
         x(_x), y(_y), z(_z), w(_w) {}
 
-    static Tuple PointZero()
-    {
-        return Tuple(0, 0, 0, 1);
-    }
-
-    static Tuple VectorZero()
-    {
-        return Tuple(0, 0, 0, 0);
-    }
+	static Tuple Zero()
+	{
+		return Tuple(0, 0, 0, 0);
+	}
 
 #pragma region Equality
 

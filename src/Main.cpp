@@ -4,6 +4,8 @@
 #include <filesystem>
 
 #include "Matrix.h"
+#include "Point.h"
+#include "Vector.h"
 #include "Shared/Canvas.h"
 #include "Shared/Color.h"
 #include "Shared/Tuple.h"
@@ -12,8 +14,11 @@ namespace fs = std::filesystem;
 
 struct Projectile
 {
-    Tuple position;
-    Tuple velocity;
+    Point position;
+    Vector velocity;
+
+	Projectile() : 
+        position(Point::Zero()), velocity(Vector::Zero()) {}
 };
 
  int main()
@@ -28,13 +33,13 @@ struct Projectile
      Canvas canvas(WIDTH, HEIGHT);
      
      Projectile projectile;
-     projectile.position = Tuple::Point(0, HEIGHT, 0);
-     projectile.velocity = Tuple::VectorZero();
+     projectile.position = Point(0, HEIGHT, 0);
+     projectile.velocity = Vector::Zero();
      
      while(projectile.position.y >= groundY)
      {
          std::cout << "Projectile position: " << projectile.position.x << ", " << projectile.position.y << std::endl;
-         projectile.velocity += Tuple::Vector(wind, gravity, 0);
+         projectile.velocity += Vector(wind, gravity, 0);
          projectile.position += projectile.velocity;
      
          const int x = static_cast<int>(projectile.position.x);
