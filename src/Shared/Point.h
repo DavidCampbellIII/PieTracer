@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tuple.h"
+#include "Vector.h"
 
 struct Point : public Tuple
 {
@@ -10,5 +11,10 @@ struct Point : public Tuple
 	static Point Zero()
 	{
 		return Point(0, 0, 0);
+	}
+
+	Vector operator-(const Point& other) const
+	{
+		return Vector(x - other.x, y - other.y, z - other.z);
 	}
 };

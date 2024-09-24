@@ -115,7 +115,7 @@ public:
         return os << "Color(" << color.r << ", " << color.g << ", " << color.b << ")";
     }
 
-    std::string ToString() const
+    [[nodiscard]] std::string ToString() const
     {
         const int rInt = static_cast<int>(std::round(Utilities::Clamp01(r) * 255));
         const int gInt = static_cast<int>(std::round(Utilities::Clamp01(g) * 255));

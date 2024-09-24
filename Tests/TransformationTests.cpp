@@ -6,10 +6,11 @@
 #include "Point.h"
 #include "Ray.h"
 #include "Vector.h"
+#include "Shapes/Sphere.h"
 
 using namespace Catch::Matchers;
 
-TEST_CASE("Translation", "[transformations]")
+TEST_CASE("Translation", "[transformations-core]")
 {
 	SECTION("Multiplying by translation matrix")
 	{
@@ -34,7 +35,7 @@ TEST_CASE("Translation", "[transformations]")
 	}
 }
 
-TEST_CASE("Scaling", "[transformations]")
+TEST_CASE("Scaling", "[transformations-core]")
 {
 	SECTION("Scaling a point")
 	{
@@ -66,7 +67,7 @@ TEST_CASE("Scaling", "[transformations]")
 	}
 }
 
-TEST_CASE("Rotation", "[transformations]")
+TEST_CASE("Rotation", "[transformations-core]")
 {
 	SECTION("Rotating a point around the x axis")
 	{
@@ -104,7 +105,7 @@ TEST_CASE("Rotation", "[transformations]")
 	}
 }
 
-TEST_CASE("Shearing", "[transformations]")
+TEST_CASE("Shearing", "[transformations-core]")
 {
 	SECTION("Shearing transformation moves x in proportion to y")
 	{
@@ -149,7 +150,7 @@ TEST_CASE("Shearing", "[transformations]")
 	}
 }
 
-TEST_CASE("Chaining transformations", "[transformations]")
+TEST_CASE("Chaining transformations", "[transformations-core]")
 {
 	SECTION("Individual transformations are applied in sequence")
 	{
@@ -180,7 +181,7 @@ TEST_CASE("Chaining transformations", "[transformations]")
 	}
 }
 
-TEST_CASE("Translating a ray", "[transformations]")
+TEST_CASE("Translating a ray", "[transformations-ray]")
 {
 	const Ray r(Point(1, 2, 3), Vector(0, 1, 0));
 	const Matrix<4, 4> m = Matrix<4, 4>::Translation(3, 4, 5);
@@ -189,11 +190,25 @@ TEST_CASE("Translating a ray", "[transformations]")
 	REQUIRE(r2.GetDirection() == Vector(0, 1, 0));
 }
 
-TEST_CASE("Scaling a ray", "[transformations]")
+TEST_CASE("Scaling a ray", "[transformations-ray]")
 {
 	const Ray r(Point(1, 2, 3), Vector(0, 1, 0));
 	const Matrix<4, 4> m = Matrix<4, 4>::Scaling(2, 3, 4);
 	const Ray r2 = r.Transform(m);
 	REQUIRE(r2.GetOrigin() == Point(2, 6, 12));
 	REQUIRE(r2.GetDirection() == Vector(0, 3, 0));
+}
+
+TEST_CASE("Sphere initialisation", "[transformations-sphere]")
+{
+	const Sphere s;
+	REQUIRE(s.GetTransform() == Matrix<4, 4>::Identity());
+}
+
+TEST_CASE("Changing a sphere's transformation", "[transformations-sphere]")
+{
+	Sphere s;
+	const Matrix<4, 4> t = Matrix<4, 4>::Translation(2, 3, 4);
+	s.SetTransform(t);
+	REQUIRE(s.GetTransform() == t);
 }

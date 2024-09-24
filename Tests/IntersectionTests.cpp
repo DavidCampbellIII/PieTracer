@@ -144,3 +144,21 @@ TEST_CASE("Hit when all intersections have positive t", "[intersections]")
 		REQUIRE(*i.get() == i4);
 	}
 }
+
+TEST_CASE("Intersecting scaled sphere with ray", "[intersections]")
+{
+	const Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+	const Sphere s(Matrix<4, 4>::Scaling(2, 2, 2));
+	const std::array<Intersection, 2> xs = s.Intersect(r);
+	REQUIRE(xs[0].GetT() == 3);
+	REQUIRE(xs[1].GetT() == 7);
+}
+
+TEST_CASE("Intersecting translated sphere with ray", "[intersections]")
+{
+	const Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+	const Sphere s(Matrix<4, 4>::Translation(5, 0, 0));
+	const std::array<Intersection, 2> xs = s.Intersect(r);
+	REQUIRE(xs[0] == Intersection::NO_INTERSECTION);
+	REQUIRE(xs[1] == Intersection::NO_INTERSECTION);
+}

@@ -4,7 +4,7 @@
 #include "../Ray.h"
 #include "../Intersection.h"
 
-std::array<Intersection, 2> Sphere::Intersect(const Ray& ray) const
+std::array<Intersection, 2> Sphere::Intersect_Internal(const Ray& ray) const
 {
 	const Vector sphereToRay = ray.GetOrigin() - Point::Zero();
 	const float a = ray.GetDirection().Dot(ray.GetDirection());

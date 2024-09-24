@@ -2,50 +2,56 @@
 #include <iomanip>
 #include <iostream>
 #include <filesystem>
+#include <vector>
 
 #include "Matrix.h"
 #include "Point.h"
+#include "Ray.h"
+#include "Raytracer.h"
 #include "Vector.h"
+#include "Shapes/Sphere.h"
 #include "Shared/Canvas.h"
 #include "Shared/Color.h"
+#include "Shared/Intersection.h"
 #include "Shared/Tuple.h"
 
 namespace fs = std::filesystem;
 
-struct Projectile
-{
-    Point position;
-    Vector velocity;
-
-	Projectile() : 
-        position(Point::Zero()), velocity(Vector::Zero()) {}
-};
-
  int main()
  {
+	 const Raytracer raytracer;
      const int WIDTH = 900;
      const int HEIGHT = 550;
      
-     const int groundY = 0;
-     const float gravity = -0.1f;
-     const float wind = 0.07f;
-     
      Canvas canvas(WIDTH, HEIGHT);
      
-     Projectile projectile;
-     projectile.position = Point(0, HEIGHT, 0);
-     projectile.velocity = Vector::Zero();
-     
-     while(projectile.position.y >= groundY)
+	 const Color red(1, 0, 0);
+	 Sphere sphere(Matrix<4, 4>::Shearing(0.5, 0.5, 0.5, 0, 0, 0));
+	 const float wallSize = 20.f;
+	 const float wallZ = 10.f;
+
+	 const float pixelSize = wallSize / WIDTH;
+	 const float half = wallSize / 2.f;
+
+	 const Point rayOrigin = Point(0, -1, -5);
+	 for (int y = 0; y < HEIGHT; ++y)
      {
-         std::cout << "Projectile position: " << projectile.position.x << ", " << projectile.position.y << std::endl;
-         projectile.velocity += Vector(wind, gravity, 0);
-         projectile.position += projectile.velocity;
-     
-         const int x = static_cast<int>(projectile.position.x);
-         const int y = HEIGHT - static_cast<int>(projectile.position.y);
-         canvas.WritePixel(x, y, Color(1, 0, 0));
-     }
+		 const float worldY = half - pixelSize * y;
+		 for (int x = 0; x < WIDTH; ++x)
+		 {
+			 const float worldX = -half + pixelSize * x;
+			 const Point position = Point(worldX, worldY, wallZ);
+			 const Vector direction = (position - rayOrigin).Normalize();
+			 const Ray ray(rayOrigin, direction);
+			 const std::array<Intersection, 2> sphereIntersections = sphere.Intersect(ray);
+			 const std::vector<Intersection> intersections(sphereIntersections.begin(), sphereIntersections.end());
+			 const std::shared_ptr<Intersection> hit = raytracer.Hit(intersections);
+			 if (hit)
+			 {
+				 canvas.WritePixel(x, y, red);
+			 }
+		 }
+	 }
      
      const std::string ppm = canvas.ToPPM();
 
