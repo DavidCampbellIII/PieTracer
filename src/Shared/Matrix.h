@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cmath>
+#include <stdexcept>
 
 #include "Tuple.h"
 #include "Utilities/Constants.h"

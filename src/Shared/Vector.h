@@ -4,7 +4,7 @@
 
 struct Vector : public Tuple
 {
-	Vector(const float x, const float y, const float z) : Tuple(x, y, z, 0.f) {}
+	Vector(const float _x, const float _y, const float _z) : Tuple(_x, _y, _z, 0.f) {}
 	Vector(const Tuple& tuple) : Tuple(tuple.x, tuple.y, tuple.z, 0.f) {}
 
 	static Vector Zero()

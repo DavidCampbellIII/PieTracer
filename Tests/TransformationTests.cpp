@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "Point.h"
+#include "Ray.h"
 #include "Vector.h"
 
 using namespace Catch::Matchers;
@@ -177,4 +178,22 @@ TEST_CASE("Chaining transformations", "[transformations]")
 		const Matrix<4, 4> T = C * B * A;
 		REQUIRE(T * p == Point(15, 0, 7));
 	}
+}
+
+TEST_CASE("Translating a ray", "[transformations]")
+{
+	const Ray r(Point(1, 2, 3), Vector(0, 1, 0));
+	const Matrix<4, 4> m = Matrix<4, 4>::Translation(3, 4, 5);
+	const Ray r2 = r.Transform(m);
+	REQUIRE(r2.GetOrigin() == Point(4, 6, 8));
+	REQUIRE(r2.GetDirection() == Vector(0, 1, 0));
+}
+
+TEST_CASE("Scaling a ray", "[transformations]")
+{
+	const Ray r(Point(1, 2, 3), Vector(0, 1, 0));
+	const Matrix<4, 4> m = Matrix<4, 4>::Scaling(2, 3, 4);
+	const Ray r2 = r.Transform(m);
+	REQUIRE(r2.GetOrigin() == Point(2, 6, 12));
+	REQUIRE(r2.GetDirection() == Vector(0, 3, 0));
 }

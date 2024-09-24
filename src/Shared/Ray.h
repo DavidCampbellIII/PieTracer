@@ -7,8 +7,8 @@
 class Ray
 {
 public:
-	[[nodiscard]] const Point& Origin() const { return origin; }
-	[[nodiscard]] const Vector& Direction() const { return direction; }
+	[[nodiscard]] const Point& GetOrigin() const { return origin; }
+	[[nodiscard]] const Vector& GetDirection() const { return direction; }
 
 	Ray(const Point& origin, const Vector& direction) : 
 		origin(origin), direction(direction) {}
