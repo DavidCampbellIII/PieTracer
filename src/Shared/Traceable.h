@@ -1,9 +1,12 @@
 #pragma once
 
+#include <memory>
+
 #include "Matrix.h"
 
 class Ray;
 class Intersection;
+class Material;
 struct Point;
 struct Vector;
 
@@ -13,8 +16,15 @@ public:
 	[[nodiscard]] Matrix<4, 4> GetTransform() const { return transform; }
 	void SetTransform(const Matrix<4, 4>& _transform) { transform = _transform; }
 
-	Traceable() : transform(Matrix<4, 4>::Identity()) {}
-	Traceable(const Matrix<4, 4>& _transform) : transform(_transform) {}
+	[[nodiscard]] std::shared_ptr<Material> GetMaterial() const { return material; }
+	[[nodiscard]] static std::shared_ptr<Material> GetDefaultMaterial();
+
+	Traceable() : 
+		Traceable(Matrix<4, 4>::IDENTITY) {}
+	Traceable(const Matrix<4, 4>& _transform) :
+		transform(_transform), material(GetDefaultMaterial()) {}
+	Traceable(const Matrix<4, 4>& _transform, const std::shared_ptr<Material>& _material) : 
+		transform(_transform), material(_material) {}
 
 	[[nodiscard]] virtual Vector NormalAt(const Point& worldPoint) const;
 	[[nodiscard]] std::array<Intersection, 2> Intersect(const Ray& ray) const;
@@ -29,5 +39,7 @@ protected:
 private:
 	static inline int nextId{0};
 	const int id{nextId++};
+
 	Matrix<4, 4> transform;
+	std::shared_ptr<Material> material;
 };

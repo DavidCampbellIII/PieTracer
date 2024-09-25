@@ -2,6 +2,13 @@
 
 #include "Ray.h"
 #include "Intersection.h"
+#include "Material.h"
+
+std::shared_ptr<Material> Traceable::GetDefaultMaterial()
+{
+	static const std::shared_ptr<Material> defaultMaterial = std::make_shared<Material>();
+	return defaultMaterial;
+}
 
 Vector Traceable::NormalAt(const Point& worldPoint) const
 {

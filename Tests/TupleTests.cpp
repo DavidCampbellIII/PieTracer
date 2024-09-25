@@ -108,7 +108,7 @@ TEST_CASE("Division", "[tuple]")
     REQUIRE(b == Tuple(0.5, -1, 1.5, -2));
 }
 
-TEST_CASE("Magnitude", "[tuple]")
+TEST_CASE("Magnitude", "[vector]")
 {
     const Vector a = Vector(1, 0, 0);
     REQUIRE(a.Magnitude() == 1);
@@ -126,7 +126,7 @@ TEST_CASE("Magnitude", "[tuple]")
     REQUIRE(e.Magnitude() == sqrtf(14));
 }
 
-TEST_CASE("Normalization", "[tuple]")
+TEST_CASE("Normalization", "[vector]")
 {
     const Vector a = Vector(4, 0, 0).Normalize();
     REQUIRE(a == Vector(1, 0, 0));
@@ -141,7 +141,7 @@ TEST_CASE("Normalization", "[tuple]")
     }
 }
 
-TEST_CASE("Dot product", "[tuple]")
+TEST_CASE("Dot product", "[vector]")
 {
     const Vector a = Vector(1, 2, 3);
     const Vector b = Vector(2, 3, 4);
@@ -149,11 +149,27 @@ TEST_CASE("Dot product", "[tuple]")
     REQUIRE(a.Dot(b) == 20);
 }
 
-TEST_CASE("Cross product", "[tuple]")
+TEST_CASE("Cross product", "[vector]")
 {
     const Vector a = Vector(1, 2, 3);
     const Vector b = Vector(2, 3, 4);
 
     REQUIRE(a.Cross(b) == Vector(-1, 2, -1));
     REQUIRE(b.Cross(a) == Vector(1, -2, 1));
+}
+
+TEST_CASE("Reflecting a vector approaching at 45 degrees", "[vector]")
+{
+	const Vector v = Vector(1, -1, 0);
+	const Vector n = Vector(0, 1, 0);
+	const Vector r = v.Reflect(n);
+	REQUIRE(r == Vector(1, 1, 0));
+}
+
+TEST_CASE("Reflecting a vector off a slanted surface", "[vector]")
+{
+	const Vector v = Vector(0, -1, 0);
+	const Vector n = Vector(sqrtf(2) / 2, sqrtf(2) / 2, 0);
+	const Vector r = v.Reflect(n);
+	REQUIRE(r == Vector(1, 0, 0));
 }

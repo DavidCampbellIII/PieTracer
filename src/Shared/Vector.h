@@ -41,4 +41,9 @@ struct Vector : public Tuple
             z * other.x - x * other.z,
             x * other.y - y * other.x);
     }
+
+	[[nodiscard]] Vector Reflect(const Vector& normal) const
+	{
+		return *this - normal * 2.f * Dot(normal);
+	}
 };

@@ -8,7 +8,7 @@
 #include "Utilities/Constants.h"
 #include "Utilities/Utilities.h"
 
-class Color
+struct Color
 {
 public:
     float r;

@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-class Color;
+struct Color;
 
 class Canvas
 {
