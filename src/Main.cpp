@@ -26,7 +26,7 @@ namespace fs = std::filesystem;
      Canvas canvas(WIDTH, HEIGHT);
      
 	 const Color red(1, 0, 0);
-	 Sphere sphere(Matrix<4, 4>::Shearing(0.5, 0.5, 0.5, 0, 0, 0));
+	 Sphere sphere(Matrix<4, 4>::Translation(0.f, 2.f, 0.f));
 	 const float wallSize = 20.f;
 	 const float wallZ = 10.f;
 

@@ -12,7 +12,7 @@ struct Vector : public Tuple
 		return Vector(0, 0, 0);
 	}
 
-	float Magnitude() const
+	[[nodiscard]] float Magnitude() const
     {
         return std::sqrt(
             x * x +
@@ -20,13 +20,13 @@ struct Vector : public Tuple
             z * z);
     }
 
-    Tuple Normalize() const
+    [[nodiscard]] Vector Normalize() const
     {
         const float magnitude = Magnitude();
-        return Tuple(x / magnitude, y / magnitude, z / magnitude, w);
+        return Vector(x / magnitude, y / magnitude, z / magnitude);
     }
 
-    float Dot(const Tuple& other) const
+    [[nodiscard]] float Dot(const Tuple& other) const
     {
         return  x * other.x +
                 y * other.y +
@@ -34,12 +34,11 @@ struct Vector : public Tuple
                 w * other.w;
     }
 
-    Tuple Cross(const Tuple& other) const
+    [[nodiscard]] Vector Cross(const Tuple& other) const
     {
-        return Tuple(
+        return Vector(
             y * other.z - z * other.y,
             z * other.x - x * other.z,
-            x * other.y - y * other.x,
-            0.f);
+            x * other.y - y * other.x);
     }
 };

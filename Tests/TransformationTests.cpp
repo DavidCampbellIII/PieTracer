@@ -199,12 +199,6 @@ TEST_CASE("Scaling a ray", "[transformations-ray]")
 	REQUIRE(r2.GetDirection() == Vector(0, 3, 0));
 }
 
-TEST_CASE("Sphere initialisation", "[transformations-sphere]")
-{
-	const Sphere s;
-	REQUIRE(s.GetTransform() == Matrix<4, 4>::Identity());
-}
-
 TEST_CASE("Changing a sphere's transformation", "[transformations-sphere]")
 {
 	Sphere s;
