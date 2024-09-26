@@ -128,10 +128,10 @@ TEST_CASE("Magnitude", "[vector]")
 
 TEST_CASE("Normalization", "[vector]")
 {
-    const Vector a = Vector(4, 0, 0).Normalize();
+    const Vector a = Vector(4, 0, 0).Normalized();
     REQUIRE(a == Vector(1, 0, 0));
 
-    const Vector b = Vector(1, 2, 3).Normalize();
+    const Vector b = Vector(1, 2, 3).Normalized();
     REQUIRE(b == Vector(1 / sqrtf(14), 2 / sqrtf(14), 3 / sqrtf(14)));
     
     SECTION("Magnitude of normalized vector is 1")

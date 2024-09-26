@@ -1,7 +1,6 @@
 #pragma once
-
-struct Point;
-struct Color;
+#include "Point.h"
+#include "Color.h"
 
 struct Light
 {

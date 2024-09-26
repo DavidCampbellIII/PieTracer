@@ -20,11 +20,19 @@ struct Vector : public Tuple
             z * z);
     }
 
-    [[nodiscard]] Vector Normalize() const
+    [[nodiscard]] Vector Normalized() const
     {
         const float magnitude = Magnitude();
         return Vector(x / magnitude, y / magnitude, z / magnitude);
     }
+
+	void Normalize()
+	{
+		const float magnitude = Magnitude();
+		x /= magnitude;
+		y /= magnitude;
+		z /= magnitude;
+	}
 
     [[nodiscard]] float Dot(const Tuple& other) const
     {
@@ -46,4 +54,29 @@ struct Vector : public Tuple
 	{
 		return *this - normal * 2.f * Dot(normal);
 	}
+
+#pragma region Subtraction
+
+	Vector operator-(const Vector& other) const
+	{
+		return Vector(
+			x - other.x,
+			y - other.y,
+			z - other.z);
+	}
+
+	Vector operator-=(const Vector& other) const
+	{
+		return Vector(
+			x - other.x,
+			y - other.y,
+			z - other.z);
+	}
+
+#pragma endregion
+
+	Vector operator-() const
+	{
+		return Vector(-x, -y, -z);
+    }
 };

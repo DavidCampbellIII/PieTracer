@@ -48,7 +48,7 @@ TEST_CASE("Normal is a normalized vector", "[spheres]")
 	const float value = std::sqrt(3) / 3;
 	const Sphere s;
 	const Vector n = s.NormalAt(Point(value, value, value));
-	REQUIRE(n == n.Normalize());
+	REQUIRE(n == n.Normalized());
 }
 
 TEST_CASE("Computing the normal on a translated sphere", "[spheres]")

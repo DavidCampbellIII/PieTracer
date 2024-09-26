@@ -4,6 +4,8 @@
 #include <filesystem>
 #include <vector>
 
+#include "Light.h"
+#include "Material.h"
 #include "Matrix.h"
 #include "Point.h"
 #include "Ray.h"
@@ -20,14 +22,22 @@ namespace fs = std::filesystem;
  int main()
  {
 	 const Raytracer raytracer;
-     const int WIDTH = 900;
-     const int HEIGHT = 550;
+     const int WIDTH = 512;
+     const int HEIGHT = 512;
      
      Canvas canvas(WIDTH, HEIGHT);
      
-	 const Color red(1, 0, 0);
-	 Sphere sphere(Matrix<4, 4>::Translation(0.f, 2.f, 0.f));
-	 const float wallSize = 20.f;
+	 Material material;
+	 material.color = Color(1, 0.2f, 1);
+	 material.specular = 1.f;
+	 material.ambient = 0.2f;
+	 material.shininess = 500.f;
+	 Sphere sphere(Matrix<4, 4>::Translation(0.f, 0.f, 0.f), 
+		 std::make_shared<Material>(material));
+
+	 const Light light(Point(-10, 10, -10), Color(1, 1, 1));
+
+	 const float wallSize = 10.f;
 	 const float wallZ = 10.f;
 
 	 const float pixelSize = wallSize / WIDTH;
@@ -41,14 +51,21 @@ namespace fs = std::filesystem;
 		 {
 			 const float worldX = -half + pixelSize * x;
 			 const Point position = Point(worldX, worldY, wallZ);
-			 const Vector direction = (position - rayOrigin).Normalize();
+			 const Vector direction = (position - rayOrigin).Normalized();
 			 const Ray ray(rayOrigin, direction);
 			 const std::array<Intersection, 2> sphereIntersections = sphere.Intersect(ray);
 			 const std::vector<Intersection> intersections(sphereIntersections.begin(), sphereIntersections.end());
 			 const std::shared_ptr<Intersection> hit = raytracer.Hit(intersections);
 			 if (hit)
 			 {
-				 canvas.WritePixel(x, y, red);
+				 const std::shared_ptr<Traceable> traceable = hit->GetTraceable();
+				 const Point hitPoint = ray.Position(hit->GetT());
+				 const Vector normal = traceable->NormalAt(hitPoint);
+				 const Vector eye = -ray.GetDirection();
+
+				 const Color color = traceable->GetMaterial()->Lighting(light, hitPoint, eye, normal);
+
+				 canvas.WritePixel(x, y, color);
 			 }
 		 }
 	 }
@@ -64,7 +81,7 @@ namespace fs = std::filesystem;
 		 std::cout << "Created directory: " << outDir << std::endl;
      }
      
-	 const fs::path filePath = outDir / "projectile.ppm";
+	 const fs::path filePath = outDir / "out.ppm";
      std::ofstream file(filePath, std::ios::out | std::ios::trunc);
      if(!file)
      {

@@ -18,6 +18,7 @@ public:
 
 	[[nodiscard]] std::shared_ptr<Material> GetMaterial() const { return material; }
 	[[nodiscard]] static std::shared_ptr<Material> GetDefaultMaterial();
+	void SetMaterial(const std::shared_ptr<Material>& _material) { material = _material; }
 
 	Traceable() : 
 		Traceable(Matrix<4, 4>::IDENTITY) {}
