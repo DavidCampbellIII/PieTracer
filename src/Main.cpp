@@ -12,30 +12,31 @@
 #include "Raytracer.h"
 #include "Vector.h"
 #include "Shapes/Sphere.h"
-#include "Shared/Canvas.h"
-#include "Shared/Color.h"
-#include "Shared/Intersection.h"
-#include "Shared/Tuple.h"
+#include "Core/Canvas.h"
+#include "Core/Color.h"
+#include "Core/Intersection.h"
+#include "Core/Tuple.h"
 
 namespace fs = std::filesystem;
 
  int main()
  {
 	 const Raytracer raytracer;
-     const int WIDTH = 512;
-     const int HEIGHT = 512;
+	 const int WIDTH = 1024;
+	 const int HEIGHT = 1024;
      
      Canvas canvas(WIDTH, HEIGHT);
      
 	 Material material;
-	 material.color = Color(1, 0.2f, 1);
-	 material.specular = 1.f;
+	 material.color = Color(0.f, 1.f, 0.f);
+	 material.specular = 0.6f;
 	 material.ambient = 0.2f;
-	 material.shininess = 500.f;
-	 Sphere sphere(Matrix<4, 4>::Translation(0.f, 0.f, 0.f), 
+	 material.shininess = 200.f;
+	 Sphere sphere(Matrix<4, 4>::Translation(0.f, -1.f, 0.f), 
 		 std::make_shared<Material>(material));
 
-	 const Light light(Point(-10, 10, -10), Color(1, 1, 1));
+	 const float intensity = 50.f;
+	 const Light light(Point(2, 10, 0), Color(1, 0.1f, 0.1f) * intensity);
 
 	 const float wallSize = 10.f;
 	 const float wallZ = 10.f;

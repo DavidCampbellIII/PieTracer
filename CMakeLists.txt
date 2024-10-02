@@ -13,13 +13,13 @@ project ("PieTracer" VERSION 1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-file(GLOB_RECURSE SHARED_SOURCES "src/Shared/*.cpp")
+file(GLOB_RECURSE CORE_SOURCES "src/Core/*.cpp")
 file(GLOB_RECURSE TEST_SOURCES "Tests/*.cpp")
 
 # Add source to this project's executable.
 add_executable (PieTracer "src/Main.cpp")
-target_sources(PieTracer PRIVATE ${SHARED_SOURCES})
-target_include_directories(PieTracer PRIVATE "src/Shared")
+target_sources(PieTracer PRIVATE ${CORE_SOURCES})
+target_include_directories(PieTracer PRIVATE "src/Core")
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
@@ -38,9 +38,9 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 
 add_executable(PieTracerTests ${TEST_SOURCES})
-target_sources(PieTracerTests PRIVATE ${SHARED_SOURCES})
+target_sources(PieTracerTests PRIVATE ${CORE_SOURCES})
 
-target_include_directories(PieTracerTests PRIVATE "src/Shared")
+target_include_directories(PieTracerTests PRIVATE "src/Core")
 target_include_directories(PieTracerTests PRIVATE "Tests")
 target_link_libraries(PieTracerTests PRIVATE Catch2::Catch2WithMain)
 

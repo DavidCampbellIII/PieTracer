@@ -1,6 +1,6 @@
 #include <catch2/catch_all.hpp>
-#include "../src/Shared/Point.h"
-#include "../src/Shared/Vector.h"
+#include "../src/Core/Point.h"
+#include "../src/Core/Vector.h"
 
 using namespace Catch::Matchers;
 

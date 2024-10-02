@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../src/Shared/Canvas.h"
-#include "../src/Shared/Color.h"
+#include "../src/Core/Canvas.h"
+#include "../src/Core/Color.h"
 
 TEST_CASE("Canvas initialization", "[canvas]")
 {

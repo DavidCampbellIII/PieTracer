@@ -1,5 +1,5 @@
 #include <catch2/catch_all.hpp>
-#include "../src/Shared/Color.h"
+#include "../src/Core/Color.h"
 #include <iostream>
 
 using namespace Catch::Matchers;

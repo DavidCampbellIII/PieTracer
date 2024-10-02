@@ -1,8 +1,8 @@
 #pragma once
 #include <catch2/catch_all.hpp>
-#include "../src/Shared/Matrix.h"
-#include "../src/Shared/Vector.h"
-#include "../src/Shared/Point.h"
+#include "../src/Core/Matrix.h"
+#include "../src/Core/Vector.h"
+#include "../src/Core/Point.h"
 #include "Shapes/Sphere.h"
 
 using namespace Catch::Matchers;
