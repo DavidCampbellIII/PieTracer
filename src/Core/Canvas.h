@@ -8,17 +8,17 @@ struct Color;
 class Canvas
 {
 public:
-    int Width() const { return width; }
-    int Height() const { return height; }
+    [[nodiscard]] int GetWidth() const { return width; }
+    [[nodiscard]] int GetHeight() const { return height; }
     
     Canvas(const int _width, const int _height);
     
-    Color PixelAt(const int x, const int y) const;
+    [[nodiscard]] Color PixelAt(const int x, const int y) const;
     void WritePixel(const int x, const int y, const Color& color);
 
     void Clear(const Color& color);
 
-    std::string ToPPM() const;
+    [[nodiscard]] std::string ToPPM() const;
     
 private:
     int width;

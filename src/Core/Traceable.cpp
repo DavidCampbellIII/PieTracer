@@ -18,7 +18,7 @@ Vector Traceable::NormalAt(const Point& worldPoint) const
 	return worldNormal.Normalized();
 }
 
-std::array<Intersection, 2> Traceable::Intersect(const Ray& ray) const
+std::vector<Intersection> Traceable::Intersect(const Ray& ray) const
 {
 	const Ray transformedRay = ray.Transform(transform.Inverse());
 	return Intersect_Internal(transformedRay);

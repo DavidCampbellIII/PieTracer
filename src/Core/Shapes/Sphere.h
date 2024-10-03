@@ -12,5 +12,5 @@ public:
 
 protected:
 	[[nodiscard]] Vector NormalAt_Internal(const Point& worldPoint) const override;
-	[[nodiscard]] std::array<Intersection, 2> Intersect_Internal(const Ray& ray) const override;
+	[[nodiscard]] std::vector<Intersection> Intersect_Internal(const Ray& ray) const override;
 };

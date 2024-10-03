@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include "Matrix.h"
 
@@ -28,14 +29,14 @@ public:
 		transform(_transform), material(_material) {}
 
 	[[nodiscard]] virtual Vector NormalAt(const Point& worldPoint) const;
-	[[nodiscard]] std::array<Intersection, 2> Intersect(const Ray& ray) const;
+	[[nodiscard]] std::vector<Intersection> Intersect(const Ray& ray) const;
 
 	[[nodiscard]] bool operator==(const Traceable& other) const { return id == other.id; }
 	[[nodiscard]] bool operator!=(const Traceable& other) const { return !(*this == other); }
 
 protected:
 	[[nodiscard]] virtual Vector NormalAt_Internal(const Point& worldPoint) const = 0;
-	[[nodiscard]] virtual std::array<Intersection, 2> Intersect_Internal(const Ray& ray) const = 0;
+	[[nodiscard]] virtual std::vector<Intersection> Intersect_Internal(const Ray& ray) const = 0;
 
 private:
 	static inline int nextId{0};

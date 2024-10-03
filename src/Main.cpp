@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <vector>
 
+#include "Camera.h"
 #include "Light.h"
 #include "Material.h"
 #include "Matrix.h"
@@ -11,6 +12,7 @@
 #include "Ray.h"
 #include "Raytracer.h"
 #include "Vector.h"
+#include "World.h"
 #include "Shapes/Sphere.h"
 #include "Core/Canvas.h"
 #include "Core/Color.h"
@@ -28,48 +30,23 @@ namespace fs = std::filesystem;
      Canvas canvas(WIDTH, HEIGHT);
      
 	 Material material;
-	 material.color = Color(0.f, 1.f, 0.f);
+	 material.color = Color(1.f, 1.f, 1.f);
 	 material.specular = 0.6f;
 	 material.ambient = 0.2f;
 	 material.shininess = 200.f;
 	 Sphere sphere(Matrix<4, 4>::Translation(0.f, -1.f, 0.f), 
 		 std::make_shared<Material>(material));
 
-	 const float intensity = 50.f;
-	 const Light light(Point(2, 10, 0), Color(1, 0.1f, 0.1f) * intensity);
+	 const float intensity = 1.f;
+	 const Light light(Point(2, 10, 0), Color(1, 0.f, 0.f) * intensity);
 
-	 const float wallSize = 10.f;
-	 const float wallZ = 10.f;
+     World world;
+	 world.AddLight(std::make_shared<Light>(light));
+	 world.AddTraceable(std::make_shared<Sphere>(sphere));
 
-	 const float pixelSize = wallSize / WIDTH;
-	 const float half = wallSize / 2.f;
+	 //TODO : implement camera
 
-	 const Point rayOrigin = Point(0, -1, -5);
-	 for (int y = 0; y < HEIGHT; ++y)
-     {
-		 const float worldY = half - pixelSize * y;
-		 for (int x = 0; x < WIDTH; ++x)
-		 {
-			 const float worldX = -half + pixelSize * x;
-			 const Point position = Point(worldX, worldY, wallZ);
-			 const Vector direction = (position - rayOrigin).Normalized();
-			 const Ray ray(rayOrigin, direction);
-			 const std::array<Intersection, 2> sphereIntersections = sphere.Intersect(ray);
-			 const std::vector<Intersection> intersections(sphereIntersections.begin(), sphereIntersections.end());
-			 const std::shared_ptr<Intersection> hit = raytracer.Hit(intersections);
-			 if (hit)
-			 {
-				 const std::shared_ptr<Traceable> traceable = hit->GetTraceable();
-				 const Point hitPoint = ray.Position(hit->GetT());
-				 const Vector normal = traceable->NormalAt(hitPoint);
-				 const Vector eye = -ray.GetDirection();
-
-				 const Color color = traceable->GetMaterial()->Lighting(light, hitPoint, eye, normal);
-
-				 canvas.WritePixel(x, y, color);
-			 }
-		 }
-	 }
+	 raytracer.Render(world, Camera(), canvas);
      
      const std::string ppm = canvas.ToPPM();
 

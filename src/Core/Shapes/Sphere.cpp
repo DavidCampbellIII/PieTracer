@@ -9,7 +9,7 @@ Vector Sphere::NormalAt_Internal(const Point& worldPoint) const
 	return worldPoint - Point::Zero();
 }
 
-std::array<Intersection, 2> Sphere::Intersect_Internal(const Ray& ray) const
+std::vector<Intersection> Sphere::Intersect_Internal(const Ray& ray) const
 {
 	const Vector sphereToRay = ray.GetOrigin() - Point::Zero();
 	const float a = ray.GetDirection().Dot(ray.GetDirection());
